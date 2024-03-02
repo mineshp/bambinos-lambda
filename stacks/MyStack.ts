@@ -7,9 +7,6 @@ export function API({ stack }: StackContext) {
     defaults: {},
     routes: {
       'POST /': 'packages/functions/src/github.handler',
-      // 'GET /': 'packages/functions/src/lambda.handler',
-      'GET /todo': 'packages/functions/src/todo.list',
-      'POST /todo': 'packages/functions/src/todo.create',
     },
   });
 

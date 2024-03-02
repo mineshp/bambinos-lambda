@@ -1,7 +1,7 @@
 import { ApiHandler } from 'sst/node/api';
 
 export const handler = ApiHandler(async (event) => {
-  const { workflowRunId } = JSON.parse(event.body);
+  const { workflowRunId } = event.body ? JSON.parse(event.body) : null;
   const ghAccessToken = process.env.GH_P_ACCESS_TOKEN;
 
   const repo = 'bambinos-story-v2';
