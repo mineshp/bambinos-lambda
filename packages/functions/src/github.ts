@@ -6,7 +6,10 @@ export const handler = ApiHandler(async (event) => {
   const authToken = event.headers['Authorization']?.split(' ')[1];
 
   const jwtSecret = process.env.JWT_SECRET;
+  console.log('MINESH');
+  console.log(jwtSecret);
   const decodedToken = jwt.verify(authToken, jwtSecret);
+  console.log(decodedToken);
 
   if (
     decodedToken.clientId !== 'slack' &&
