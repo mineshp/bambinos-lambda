@@ -24,6 +24,7 @@
   "dependencies": {
     "@serverless-stack/node": "^1.18.4",
     "@serverless-stack/resources": "^1.18.4",
-    "aws-lambda": "^1.0.7"
+    "aws-lambda": "^1.0.7",
+    "jsonwebtoken": "^9.0.2"
   }
 }

@@ -1,11 +1,26 @@
+import jwt from 'jsonwebtoken';
 import { ApiHandler } from 'sst/node/api';
 
 export const handler = ApiHandler(async (event) => {
   const { workflowRunId } = event.body ? JSON.parse(event.body) : null;
+  const authToken = event.headers['Authorization']?.split(' ')[1];
+
+  const jwtSecret = process.env.JWT_SECRET;
+  const decodedToken = jwt.verify(authToken, jwtSecret);
+
+  if (
+    decodedToken.clientId !== 'slack' &&
+    decodedToken.server !== 'BambinosStory' &&
+    decodedToken.repo !== 'bambinos-story-v2'
+  ) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify({ error: 'Unauthorized' }),
+    };
+  }
+
   const ghAccessToken = process.env.GH_P_ACCESS_TOKEN;
-
   const repo = 'bambinos-story-v2';
-
   const ghApiRerunEndpoint = `https://api.github.com/repos/mpatel/${repo}/actions/runs/${workflowRunId}/rerun`;
 
   try {

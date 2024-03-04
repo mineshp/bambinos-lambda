@@ -2,6 +2,7 @@ import { StackContext, Api, Config, Function } from 'sst/constructs';
 
 export function API({ stack }: StackContext) {
   const GH_P_ACCESS_TOKEN = new Config.Secret(stack, 'GH_P_ACCESS_TOKEN');
+  const JWT_SECRET = new Config.Secret(stack, 'JWT_SECRET');
 
   const api = new Api(stack, 'api', {
     defaults: {},
@@ -14,6 +15,7 @@ export function API({ stack }: StackContext) {
     handler: 'packages/functions/src/github.handler',
     environment: {
       GH_P_ACCESS_TOKEN: GH_P_ACCESS_TOKEN.toString(),
+      JWT_SECRET: JWT_SECRET.toString(),
     },
   });
 
