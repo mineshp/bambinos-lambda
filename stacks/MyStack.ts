@@ -20,10 +20,10 @@ export function API({ stack }: StackContext) {
 
   const myLambdaFunction = new Function(stack, 'MyLambdaFunction', {
     handler: 'packages/functions/src/github.handler',
-    environment: {
-      GH_P_ACCESS_TOKEN: GH_P_ACCESS_TOKEN.toString(),
-      x: JWT_SECRET.toString(),
-    },
+    // environment: {
+    //   GH_P_ACCESS_TOKEN: GH_P_ACCESS_TOKEN.toString(),
+    //   x: JWT_SECRET.toString(),
+    // },
   });
 
   stack.addOutputs({
