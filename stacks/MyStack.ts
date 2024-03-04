@@ -11,8 +11,11 @@ export function API({ stack }: StackContext) {
     },
   });
 
+  console.log(JWT_SECRET.toString());
+
   const myLambdaFunction = new Function(stack, 'MyLambdaFunction', {
     handler: 'packages/functions/src/github.handler',
+    bind: [JWT_SECRET, GH_P_ACCESS_TOKEN],
     environment: {
       GH_P_ACCESS_TOKEN: GH_P_ACCESS_TOKEN.toString(),
       JWT_SECRET: JWT_SECRET.toString(),

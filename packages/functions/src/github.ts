@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { ApiHandler } from 'sst/node/api';
+import { Config } from 'sst/node/config';
 
 export const handler = ApiHandler(async (event) => {
   const { workflowRunId } = event.body ? JSON.parse(event.body) : null;
   const authToken = event.headers['Authorization']?.split(' ')[1];
 
-  const jwtSecret = process.env.JWT_SECRET;
+  const jwtSecret = Config.JWT_SECRET;
   console.log('MINESH');
   console.log(jwtSecret);
   const decodedToken = jwt.verify(authToken, jwtSecret);
@@ -22,7 +23,7 @@ export const handler = ApiHandler(async (event) => {
     };
   }
 
-  const ghAccessToken = process.env.GH_P_ACCESS_TOKEN;
+  const ghAccessToken = Config.GH_P_ACCESS_TOKEN;
   const repo = 'bambinos-story-v2';
   const ghApiRerunEndpoint = `https://api.github.com/repos/mpatel/${repo}/actions/runs/${workflowRunId}/rerun`;
 
