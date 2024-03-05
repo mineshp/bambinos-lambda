@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { Octokit } from 'octokit';
 import { ApiHandler } from 'sst/node/api';
 import { Config } from 'sst/node/config';
 
@@ -25,28 +26,42 @@ export const handler = ApiHandler(async (event) => {
   const ghApiRerunEndpoint = `https://api.github.com/repos/mpatel/${repo}/actions/runs/${workflowRunId}/rerun-failed-jobs`;
   console.log(ghAccessToken);
   try {
-    const response = await fetch(
-      'https://api.github.com/repos/mpatel/bambinos-story-v2',
+    const octokit = new Octokit({
+      auth: ghAccessToken,
+    });
+
+    const response = await octokit.request(
+      'POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun-failed-jobs',
       {
-        // method: 'POST',
+        owner: 'mpatel',
+        repo,
+        run_id: workflowRunId,
         headers: {
-          Accept: 'application/vnd.github+json',
-          Authorization: `Bearer ${ghAccessToken}`,
           'X-GitHub-Api-Version': '2022-11-28',
-          //   'X-OAuth-Scopes': 'repo,workflow',
-          //   'X-Accepted-OAuth-Scopes': 'repo,workflow',
         },
-        method: 'GET',
       }
     );
 
-    const data = await response.json();
+    // const response = await fetch(
+    //   'https://api.github.com/repos/mpatel/bambinos-story-v2',
+    //   {
+    //     // method: 'POST',
+    //     headers: {
+    //       Accept: 'application/vnd.github+json',
+    //       Authorization: `Bearer ${ghAccessToken}`,
+    //       'X-GitHub-Api-Version': '2022-11-28',
+    //       //   'X-OAuth-Scopes': 'repo,workflow',
+    //       //   'X-Accepted-OAuth-Scopes': 'repo,workflow',
+    //     },
+    //     method: 'GET',
+    //   }
+    // );
 
-    console.log(data);
+    console.log(response);
 
-    if (!response.ok) {
-      throw new Error(`Failed to trigger workflow ${workflowRunId} rerun`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`Failed to trigger workflow ${workflowRunId} rerun`);
+    // }
 
     console.log(`Workflow rerun for ${workflowRunId} triggered successfully`);
     return {
