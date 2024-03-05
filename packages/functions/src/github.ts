@@ -30,6 +30,9 @@ export const handler = ApiHandler(async (event) => {
       headers: {
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${ghAccessToken}`,
+        'X-GitHub-Api-Version': '2022-11-28',
+        'X-OAuth-Scopes': 'repo,workflow',
+        'X-Accepted-OAuth-Scopes': 'repo,workflow',
       },
     });
 
