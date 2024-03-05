@@ -47,7 +47,7 @@ export const handler = ApiHandler(async (event) => {
       }),
     };
   } catch (error: any) {
-    console.error('Error:', error.message);
+    console.error('Error:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({
