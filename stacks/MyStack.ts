@@ -16,8 +16,6 @@ export function API({ stack }: StackContext) {
     },
   });
 
-  console.log(JWT_SECRET.toString());
-
   const myLambdaFunction = new Function(stack, 'MyLambdaFunction', {
     handler: 'packages/functions/src/github.handler',
   });

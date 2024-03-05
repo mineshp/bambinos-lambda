@@ -23,14 +23,13 @@ export const handler = ApiHandler(async (event) => {
   const ghAccessToken = Config.GH_P_ACCESS_TOKEN;
   const repo = 'bambinos-story-v2';
   const ghApiRerunEndpoint = `https://api.github.com/repos/mpatel/${repo}/actions/runs/${workflowRunId}/rerun-failed-jobs`;
-  console.log(ghApiRerunEndpoint);
+  console.log(ghAccessToken);
   try {
     const response = await fetch(ghApiRerunEndpoint, {
       method: 'POST',
       headers: {
-        Accept: 'application/vnd.github.v3+json',
-        Authorization: `token ${ghAccessToken}`,
-        'X-GitHub-Api-Version': '2022-11-28',
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${ghAccessToken}`,
       },
     });
 
