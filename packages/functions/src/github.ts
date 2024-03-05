@@ -4,11 +4,9 @@ import { Config } from 'sst/node/config';
 
 export const handler = ApiHandler(async (event) => {
   const { workflowRunId } = event.body ? JSON.parse(event.body) : null;
-  const authToken = event.headers['Authorization']?.split(' ')[1];
+  const authToken = event.headers['authorization']?.split(' ')[1];
 
   const jwtSecret = Config.JWT_SECRET;
-  console.log('MINESH');
-  console.log(jwtSecret);
   console.log(event.headers);
   const decodedToken = jwt.verify(authToken, jwtSecret);
   console.log(decodedToken);
