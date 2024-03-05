@@ -9,6 +9,7 @@ export const handler = ApiHandler(async (event) => {
   const jwtSecret = Config.JWT_SECRET;
   console.log('MINESH');
   console.log(jwtSecret);
+  console.log(event.headers['Authorization']);
   const decodedToken = jwt.verify(authToken, jwtSecret);
   console.log(decodedToken);
 
