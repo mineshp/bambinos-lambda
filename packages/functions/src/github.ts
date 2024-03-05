@@ -23,7 +23,7 @@ export const handler = ApiHandler(async (event) => {
   const ghAccessToken = Config.GH_P_ACCESS_TOKEN;
   const repo = 'bambinos-story-v2';
   const ghApiRerunEndpoint = `https://api.github.com/repos/mpatel/${repo}/actions/runs/${workflowRunId}/rerun-failed-jobs`;
-
+  console.log(ghApiRerunEndpoint);
   try {
     const response = await fetch(ghApiRerunEndpoint, {
       method: 'POST',
