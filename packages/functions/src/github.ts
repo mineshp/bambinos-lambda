@@ -5,10 +5,11 @@ import { Config } from 'sst/node/config';
 
 export const handler = ApiHandler(async (event) => {
   const { workflowRunId } = event.body ? JSON.parse(event.body) : null;
-  const authToken = event.headers['authorization']?.split(' ')[1];
+  const authToken: string | undefined =
+    event.headers['authorization']?.split(' ')[1];
 
   const jwtSecret = Config.JWT_SECRET;
-  const decodedToken = jwt.verify(authToken, jwtSecret);
+  const decodedToken: any = jwt.verify(authToken as string, jwtSecret);
 
   if (
     decodedToken.clientId !== 'slack' &&
@@ -23,8 +24,8 @@ export const handler = ApiHandler(async (event) => {
 
   const ghAccessToken = Config.GH_P_ACCESS_TOKEN;
   const repo = 'bambinos-story-v2';
-  const ghApiRerunEndpoint = `https://api.github.com/repos/mineshp/${repo}/actions/runs/${workflowRunId}/rerun-failed-jobs`;
-  console.log(ghAccessToken);
+  const rerunEndpoint = `https://api.github.com/repos/mineshp/${repo}/actions/runs/${workflowRunId}/rerun-failed-jobs`;
+
   try {
     const octokit = new Octokit({
       auth: ghAccessToken,
@@ -43,26 +44,9 @@ export const handler = ApiHandler(async (event) => {
       }
     );
 
-    // const response = await fetch(
-    //   'https://api.github.com/repos/mpatel/bambinos-story-v2',
-    //   {
-    //     // method: 'POST',
-    //     headers: {
-    //       Accept: 'application/vnd.github+json',
-    //       Authorization: `Bearer ${ghAccessToken}`,
-    //       'X-GitHub-Api-Version': '2022-11-28',
-    //       //   'X-OAuth-Scopes': 'repo,workflow',
-    //       //   'X-Accepted-OAuth-Scopes': 'repo,workflow',
-    //     },
-    //     method: 'GET',
-    //   }
-    // );
-
-    console.log(response);
-
-    // if (!response.ok) {
-    //   throw new Error(`Failed to trigger workflow ${workflowRunId} rerun`);
-    // }
+    if (response.status !== 201) {
+      throw new Error(`Failed to trigger workflow ${workflowRunId} rerun`);
+    }
 
     console.log(`Workflow rerun for ${workflowRunId} triggered successfully`);
     return {
