@@ -7,9 +7,7 @@ export const handler = ApiHandler(async (event) => {
   const authToken = event.headers['authorization']?.split(' ')[1];
 
   const jwtSecret = Config.JWT_SECRET;
-  console.log(event.headers);
   const decodedToken = jwt.verify(authToken, jwtSecret);
-  console.log(decodedToken);
 
   if (
     decodedToken.clientId !== 'slack' &&
@@ -24,7 +22,7 @@ export const handler = ApiHandler(async (event) => {
 
   const ghAccessToken = Config.GH_P_ACCESS_TOKEN;
   const repo = 'bambinos-story-v2';
-  const ghApiRerunEndpoint = `https://api.github.com/repos/mpatel/${repo}/actions/runs/${workflowRunId}/rerun`;
+  const ghApiRerunEndpoint = `https://api.github.com/repos/mpatel/${repo}/actions/runs/${workflowRunId}/rerun-failed-jobs`;
 
   try {
     const response = await fetch(ghApiRerunEndpoint, {
@@ -32,6 +30,7 @@ export const handler = ApiHandler(async (event) => {
       headers: {
         Accept: 'application/vnd.github.v3+json',
         Authorization: `token ${ghAccessToken}`,
+        'X-GitHub-Api-Version': '2022-11-28',
       },
     });
 
@@ -51,7 +50,7 @@ export const handler = ApiHandler(async (event) => {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: `Internal Server Error attepting to rerun workflow ${workflowRunId}`,
+        error: `Internal Server Error attempting to rerun workflow ${workflowRunId}`,
       }),
     };
   }
