@@ -23,7 +23,7 @@ export const handler = ApiHandler(async (event) => {
 
   const ghAccessToken = Config.GH_P_ACCESS_TOKEN;
   const repo = 'bambinos-story-v2';
-  const ghApiRerunEndpoint = `https://api.github.com/repos/mpatel/${repo}/actions/runs/${workflowRunId}/rerun-failed-jobs`;
+  const ghApiRerunEndpoint = `https://api.github.com/repos/mineshp/${repo}/actions/runs/${workflowRunId}/rerun-failed-jobs`;
   console.log(ghAccessToken);
   try {
     const octokit = new Octokit({
@@ -33,7 +33,7 @@ export const handler = ApiHandler(async (event) => {
     const response = await octokit.request(
       'POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun-failed-jobs',
       {
-        owner: 'mpatel',
+        owner: 'mineshp',
         repo,
         run_id: workflowRunId,
         headers: {
