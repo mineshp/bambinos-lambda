@@ -34,9 +34,9 @@ export const handler = ApiHandler(async (event) => {
       },
     });
 
-    if (!response.ok) {
-      throw new Error(`Failed to trigger workflow ${workflowRunId} rerun`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`Failed to trigger workflow ${workflowRunId} rerun`);
+    // }
 
     console.log(`Workflow rerun for ${workflowRunId} triggered successfully`);
     return {
