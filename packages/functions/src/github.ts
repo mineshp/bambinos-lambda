@@ -38,6 +38,7 @@ export const handler = ApiHandler(async (event) => {
         run_id: workflowRunId,
         headers: {
           'X-GitHub-Api-Version': '2022-11-28',
+          'user-agent': 'bambinos-lambda',
         },
       }
     );
